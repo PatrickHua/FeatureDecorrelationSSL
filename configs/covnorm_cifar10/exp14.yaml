@@ -1,0 +1,77 @@
+# 88.82
+name: covnorm-cifar10-resnet18_cifar_variant1
+dataset: 
+  name: cifar10
+
+augmentations:
+  image_size: 32
+
+dataloader:
+  drop_last: True
+  pin_memory: True
+  num_workers: 4
+
+model: 
+  name: covnorm
+  backbone: 
+    name: resnet18_cifar_variant1
+
+  projector:
+    in_dim: 512
+    hidden_dim: 1024
+    out_dim: 512
+    num_layers: 3
+    normalization: 
+      num_groups: 8
+      shuffle: True
+      engine: symeig
+
+optimizer:
+  name: sgd
+  weight_decay: 0.0005
+  momentum: 0.9
+
+lr_scheduler:
+  warmup_epochs: 5
+  warmup_lr: 0
+  base_lr: 0.02
+  final_lr: 0
+
+batch_size: 128
+num_epochs: 200 # this parameter influence the lr decay
+stop_at_epoch: 200 # has to be smaller than num_epochs
+
+knn_monitor: 
+  disable: True # knn monitor will take more time
+  interval: 5
+  k: 200 # smaller faster, theoretically ... 
+
+logger:
+  tensorboard: False
+  matplotlib: False
+
+seed: null
+
+
+
+
+
+eval: # linear evaluation, False will turn off automatic evaluation after training
+  batch_size: 256
+  num_epochs: 100
+  stop_at_epoch: null
+
+  optimizer: 
+    name: sgd
+    weight_decay: 0
+    momentum: 0.9
+
+  lr_scheduler:
+    warmup_epochs: 0
+    warmup_lr: 0
+    base_lr: 30
+    final_lr: 0
+
+
+
+

@@ -1,0 +1,10 @@
+.vscode
+.DS_Store
+__pycache__/
+**/__pycache__/
+
+**/*.out
+**/*.out.bak
+co2.py
+scripts/
+.mypy_cache/
